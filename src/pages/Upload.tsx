@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useTypewriter } from 'react-simple-typewriter';
 import '../styles/Upload.css';
-import { useRef } from 'react';
+import { useRef, ChangeEvent } from 'react';
 import * as XLSX from 'xlsx';
 
 interface UploadProps {}
@@ -11,12 +11,9 @@ const Upload: React.FC<UploadProps> = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  
-
   const handleChooseFileClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    // Use optional chaining to avoid potential null/undefined error
+    fileInputRef?.current?.click();
   };
 
   const [text] = useTypewriter({
@@ -25,29 +22,35 @@ const Upload: React.FC<UploadProps> = () => {
     delaySpeed: 2000,
   });
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
 
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0]; // Assuming you're reading the first sheet
-        const sheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+      reader.onload = (event) => {
+        const result = event.target?.result;
+        if (result instanceof ArrayBuffer) {
+          const data = new Uint8Array(result);
+          try {
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0]; // Assuming you're reading the first sheet
+            const sheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        const columns = jsonData[0]; 
+            const columns = jsonData[0];
 
-        localStorage.setItem('columns', JSON.stringify(columns));
-        
-        localStorage.setItem('sheet', JSON.stringify(jsonData));
+            localStorage.setItem('columns', JSON.stringify(columns));
+            localStorage.setItem('sheet', JSON.stringify(jsonData));
+          } catch (error) {
+            console.error('Error while processing Excel file:', error);
+            alert('Could not process the Excel file. Please try again.');
+          }
+        }
       };
 
       reader.readAsArrayBuffer(file);
     }
   };
-
 
   return (
     <div className="upload-container">
