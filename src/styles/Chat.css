@@ -1,0 +1,80 @@
+/* Chat.css */
+
+.chat-base {
+    height: 100vh;
+    position: relative;
+    background-color: #22223B;
+  }
+  .text-area-container {
+    display: flex;
+    margin-left: 3%;
+    position: relative;
+    top: 81%;
+    justify-content: center;
+    align-items: center;
+    
+    
+    
+  }
+  
+  .text-area {
+    background-color: #4A4E69;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #C9ADA7;
+    border-radius: 8px;
+    width: 81%;
+    height: 80px;
+    
+  }
+  .text-area::placeholder {
+    color: #C9ADA7; /* Set your desired placeholder color */
+  }
+
+  .buttons-container{
+    
+    display: flex;
+    width: 15%;
+    justify-content: space-evenly;
+
+  }
+
+  .voice-icon {
+    
+    background-color: #9A8C98!important;
+    
+  }
+  .send-icon{
+    background-color: #9A8C98!important;
+  }
+  .loading {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    z-index: 999; /* Set a high z-index to make it appear on top */
+  }
+  .position{
+    position: absolute ;
+    right: 10%;
+    margin-top: 20px;
+  }
+
+  @media screen and (max-width: 769px) {
+    .text-area-container{
+        top: 77%;
+    }
+    .text-area {
+        height: 110px;
+    }
+    .buttons-container{
+        flex-direction: column;
+        margin-left: 2%;
+    }
+    .send-icon{
+      
+    }
+    .voice-icon {
+      background-color: #9A8C98!important;
+    }
+    
+  }
