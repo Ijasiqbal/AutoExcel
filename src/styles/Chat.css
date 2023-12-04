@@ -64,7 +64,6 @@
 
   @media screen and (max-width: 769px) {
     .text-area-container{
-        top: 77%;
     }
     .text-area {
         height: 110px;
