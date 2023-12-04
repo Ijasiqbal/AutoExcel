@@ -26,6 +26,7 @@ const IndustryDialog: React.FC<IndustryDialogProps> = ({ onSave, onClose }) => {
   };
 
   const handleSave = () => {
+    localStorage.setItem('industry', industry);
     onSave && onSave(true); // Pass a boolean value to onSave
     handleClose();
   };
@@ -37,7 +38,7 @@ const IndustryDialog: React.FC<IndustryDialogProps> = ({ onSave, onClose }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose} PaperProps={{ style: { backgroundColor: '#9A8C98' } }}>
-        <DialogTitle>Explain your business in a few words...</DialogTitle>
+        <DialogTitle>What is your excel data about...</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -51,7 +52,7 @@ const IndustryDialog: React.FC<IndustryDialogProps> = ({ onSave, onClose }) => {
           />
         </DialogContent>
         <DialogActions>
-          <button onClick={handleSave} className="industry-btn">
+          <button onClick={handleSave} className="btn2">
             Submit
           </button>
         </DialogActions>
